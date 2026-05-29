@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Contact Form + To-Do List</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f3f4f6;
+}
+
+/* Navigation - Flexbox */
+
+nav{
+display:flex;
+justify-content:center;
+gap:20px;
+background:#1e293b;
+padding:18px;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+font-size:18px;
+}
+
+nav a:hover{
+color:#38bdf8;
+}
+
+/* Grid Layout */
+
+.container{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:25px;
+padding:30px;
+}
+
+/* Card */
+
+.card{
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+h2{
+margin-bottom:20px;
+color:#1e293b;
+}
+
+input{
+width:100%;
+padding:12px;
+margin-bottom:15px;
+border:1px solid #ccc;
+border-radius:8px;
+}
+
+button{
+padding:12px 20px;
+background:#2563eb;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
+button:hover{
+background:#1d4ed8;
+}
+
+#message{
+margin-top:15px;
+font-weight:bold;
+}
+
+/* ToDo */
+
+ul{
+margin-top:20px;
+list-style:none;
+}
+
+li{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#e0f2fe;
+padding:10px;
+margin-bottom:10px;
+border-radius:8px;
+}
+
+.delete{
+background:red;
+padding:8px;
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+nav{
+flex-direction:column;
+align-items:center;
+}
+
+.container{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- Navigation -->
+
+<nav>
+
+<a href="#">Home</a>
+<a href="#">Contact</a>
+<a href="#">Tasks</a>
+
+</nav>
+
+
+<div class="container">
+
+<!-- Contact Form -->
+
+<div class="card">
+
+<h2>Contact Form</h2>
+
+<form id="contactForm">
+
+<input
+type="text"
+id="name"
+placeholder="Enter Name">
+
+<input
+type="email"
+id="email"
+placeholder="Enter Email">
+
+<button type="submit">
+
+Submit
+
+</button>
+
+</form>
+
+<p id="message"></p>
+
+</div>
+
+
+<!-- ToDo -->
+
+<div class="card">
+
+<h2>Dynamic To-Do List</h2>
+
+<input
+type="text"
+id="taskInput"
+placeholder="Enter Task">
+
+<button onclick="addTask()">
+
+Add Task
+
+</button>
+
+<ul id="taskList"></ul>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* FORM VALIDATION */
+
+document
+.getElementById("contactForm")
+.addEventListener("submit",
+
+function(e){
+
+e.preventDefault();
+
+let name=
+document
+.getElementById("name")
+.value
+.trim();
+
+let email=
+document
+.getElementById("email")
+.value
+.trim();
+
+let msg=
+document
+.getElementById("message");
+
+msg.style.color="red";
+
+if(name===""){
+
+msg.innerHTML=
+"Please enter name";
+
+return;
+
+}
+
+let emailPattern=
+/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+if(!emailPattern.test(email)){
+
+msg.innerHTML=
+"Enter valid email";
+
+return;
+
+}
+
+msg.style.color=
+"green";
+
+msg.innerHTML=
+"Form submitted successfully";
+
+document
+.getElementById("contactForm")
+.reset();
+
+});
+
+
+/* TO DO LIST */
+
+function addTask(){
+
+let input=
+document
+.getElementById("taskInput");
+
+let task=
+input.value.trim();
+
+if(task===""){
+
+alert(
+"Enter a task"
+);
+
+return;
+
+}
+
+let li=
+document
+.createElement("li");
+
+li.innerHTML=
+
+`
+${task}
+
+<button
+class="delete"
+onclick="removeTask(this)">
+Delete
+</button>
+
+`;
+
+document
+.getElementById("taskList")
+.appendChild(li);
+
+input.value="";
+
+}
+
+
+function removeTask(btn){
+
+btn
+.parentElement
+.remove();
+
+}
+
+</script>
+
+</body>
+</html>
