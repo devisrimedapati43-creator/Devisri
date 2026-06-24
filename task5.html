@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mini E-Commerce Store</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f4f4f4;
+}
+
+header{
+background:#2c3e50;
+color:white;
+text-align:center;
+padding:20px;
+}
+
+.container{
+padding:20px;
+}
+
+.controls{
+display:flex;
+gap:10px;
+margin-bottom:20px;
+flex-wrap:wrap;
+}
+
+input,select{
+padding:10px;
+}
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
+
+.card{
+background:white;
+padding:15px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+text-align:center;
+}
+
+.card img{
+width:100%;
+height:180px;
+object-fit:cover;
+border-radius:10px;
+}
+
+button{
+background:#3498db;
+color:white;
+border:none;
+padding:10px;
+margin-top:10px;
+cursor:pointer;
+border-radius:5px;
+}
+
+button:hover{
+background:#2980b9;
+}
+
+.cart{
+margin-top:30px;
+background:white;
+padding:20px;
+border-radius:10px;
+}
+
+@media(max-width:768px){
+
+.controls{
+flex-direction:column;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Mini E-Commerce Store</h1>
+<p>Capstone Project</p>
+</header>
+
+<div class="container">
+
+<div class="controls">
+
+<input
+type="text"
+id="search"
+placeholder="Search Product"
+onkeyup="filterProducts()">
+
+<select
+id="category"
+onchange="filterProducts()">
+
+<option value="all">All</option>
+<option value="Electronics">Electronics</option>
+<option value="Fashion">Fashion</option>
+
+</select>
+
+</div>
+
+<div class="products" id="productContainer"></div>
+
+<div class="cart">
+
+<h2>Cart Items</h2>
+
+<ul id="cartList"></ul>
+
+<p><strong>Total Items:</strong>
+<span id="count">0</span>
+</p>
+
+</div>
+
+</div>
+
+<script>
+
+const products=[
+
+{
+name:"Laptop",
+category:"Electronics",
+image:"laptop.png",
+},
+
+{
+name:"Smartphone",
+category:"Electronics",
+image:"phn.jpg",
+},
+
+{
+name:"T-Shirt",
+category:"Fashion",
+image:"tshirt.png",
+},
+
+{
+name:"Shoes",
+category:"Fashion",
+image:"shoes.jpg",
+}
+
+];
+
+let cart=[];
+
+function displayProducts(items){
+
+let container=
+document.getElementById("productContainer");
+
+container.innerHTML="";
+
+items.forEach(product=>{
+
+container.innerHTML+=`
+
+<div class="card">
+
+<img src="${product.image}"
+loading="lazy">
+
+<h3>${product.name}</h3>
+
+<p>${product.category}</p>
+
+<button onclick=
+"addToCart('${product.name}')">
+
+Add To Cart
+
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+function filterProducts(){
+
+let search=
+document.getElementById("search")
+.value.toLowerCase();
+
+let category=
+document.getElementById("category")
+.value;
+
+let filtered=
+products.filter(product=>{
+
+let matchName=
+product.name.toLowerCase()
+.includes(search);
+
+let matchCategory=
+category==="all" ||
+product.category===category;
+
+return matchName &&
+matchCategory;
+
+});
+
+displayProducts(filtered);
+
+}
+
+function addToCart(name){
+
+cart.push(name);
+
+document
+.getElementById("count")
+.innerText=cart.length;
+
+let list=
+document
+.getElementById("cartList");
+
+let li=
+document.createElement("li");
+
+li.innerText=name;
+
+list.appendChild(li);
+
+}
+
+displayProducts(products);
+
+</script>
+
+</body>
+</html>
